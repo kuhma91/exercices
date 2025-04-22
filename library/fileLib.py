@@ -9,6 +9,7 @@ description: library related to file info and management
 # ==== native ==== #
 import os
 from datetime import datetime
+import platform
 
 # ==== third ==== #
 
@@ -71,3 +72,21 @@ def isDate(data, dateFormats=None):
             continue
 
     return False
+
+
+def openFile(fileToOpen):
+    """
+    Opens a file with the default program based on the operating system.
+
+    This function checks the operating system and opens the specified file
+    with the associated default program (e.g., text editor for text files).
+
+    :param fileToOpen: The path to the file to be opened
+    :type fileToOpen: str
+    """
+    if platform.system() == "Windows":
+        os.startfile(fileToOpen)  # Windows
+    elif platform.system() == "Darwin":
+        os.system(f"open {fileToOpen}")  # macOS
+    else:
+        os.system(f"xdg-open {fileToOpen}")

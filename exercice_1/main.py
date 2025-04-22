@@ -9,14 +9,14 @@ description: read a csv file to calculate min and max values then save it in res
 # ==== native ==== #
 import csv
 import os
-import pprint
 from datetime import datetime
 
 # ==== third ==== #
 
 # ==== local ===== #
-from exercices.library.fileLib import getFileRecursively, DATE_FORMATS
+from exercices.library.fileLib import getFileRecursively
 from exercices.library.fileLib import isDate
+from exercices.library.fileLib import openFile
 
 # ==== global ==== #
 PACKAGE_REPO = os.sep.join(__file__.split(os.sep)[:-2])
@@ -93,7 +93,7 @@ def getCSVData():
     return csvData
 
 
-def getResume():
+def formatResume():
     """
     Retrieves and processes CSV data, computing averages and time ranges.
 
@@ -119,7 +119,7 @@ def getResume():
             continue
 
         values = [float(x) for x in data]
-        resumeString += f'\n- average {title} = {sum(values) / len(values)}'
+        resumeString += f'\n    - average {title} = {sum(values) / len(values)}'
 
     if not resumeString:
         return 'failed to compilate data'
@@ -127,16 +127,25 @@ def getResume():
     return resumeString
 
 
-def getResume():
+def getResume(skipOpen=False):
     """
     Generates a resume string and writes it to a text file.
 
-    This function calls `getResume()` to generate a formatted summary, then opens a file
+    This function calls `formatResume()` to generate a formatted summary, then opens a file
     specified by `RESUME_FILE_NAME` in write mode and saves the resume string into it.
+    If `skipOpen` is False, it will open the file with the default program.
+
+    :param skipOpen: If True, skips opening the file after writing. Defaults to False.
+    :type skipOpen: bool
     """
-    toPrint = getResume()
-    with open(RESUME_FILE_NAME, "w") as file:
+    toPrint = formatResume()
+
+    resumePath = os.path.join(os.path.split(__file__)[0], RESUME_FILE_NAME)
+    with open(resumePath, "w") as file:
         file.write(toPrint)
+
+    if not skipOpen:
+        openFile(resumePath)
 
 
 if __name__ == '__main__':
