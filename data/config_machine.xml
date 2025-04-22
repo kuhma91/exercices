@@ -1,0 +1,5 @@
+<machine>
+  <id>AXT-01</id>
+  <mode>auto</mode>
+  <cycle_time>25</cycle_time>
+</machine>
