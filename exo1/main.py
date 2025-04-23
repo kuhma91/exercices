@@ -21,7 +21,8 @@ from exercices.library.fileLib import getCSVData
 # ==== global ==== #
 PACKAGE_REPO = os.sep.join(__file__.split(os.sep)[:-2])
 RESUME_FILE_NAME = 'resume.txt'
-RESUME_PATH = os.path.join(os.path.split(__file__)[0], RESUME_FILE_NAME)
+OUTPUT_FOLDER = os.path.join(os.path.split(__file__)[0], 'resumes')
+RESUME_PATH = os.path.join(OUTPUT_FOLDER, RESUME_FILE_NAME)
 RELATED_FILE = 'capteurs.csv'
 DATE_FORMATS = ["%Y-%m-%d %H:%M:%S"]
 BASE_RESUME = "Over a period of {lapsTime} from {minTime} to {maxTime}, the average values are:"

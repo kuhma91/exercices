@@ -21,7 +21,8 @@ from exercices.library.fileLib import getJsonData
 # ==== global ==== #
 PACKAGE_REPO = os.sep.join(__file__.split(os.sep)[:-2])
 LOG_FILE_NAME = 'log.txt'
-RESUME_PATH = os.path.join(os.path.split(__file__)[0], LOG_FILE_NAME)
+OUTPUT_FOLDER = os.path.join(PACKAGE_REPO, 'logs')
+RESUME_PATH = os.path.join(OUTPUT_FOLDER, LOG_FILE_NAME)
 RELATED_FILE = 'machine_status.json'
 KEY = 'status'
 VALIDATION = 'running'
