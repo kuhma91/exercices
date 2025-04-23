@@ -41,8 +41,7 @@ def getCSVData():
     """
     dataFile = getRelatedFile(folder=PACKAGE_REPO, wantedFile=RELATED_FILE)
     if not dataFile:
-        print('no matching csv found')
-        return
+        raise RuntimeError('no matching csv found')
 
     csvData = {}
     with open(dataFile, newline='') as csvfile:
@@ -55,8 +54,7 @@ def getCSVData():
                 continue
 
             if not titles:
-                print('no able to define titles')
-                return
+                raise RuntimeError('no able to define titles')
 
             for x, info in enumerate(row):
                 csvData.setdefault(titles[x], []).append(info)
@@ -75,8 +73,7 @@ def getResume():
     """
     csvData = getCSVData()
     if not csvData:
-        print('no csv data found')
-        return
+        raise RuntimeError('no csv data found')
 
     resumeString = ''
     for title, data in csvData.items():
