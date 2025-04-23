@@ -48,4 +48,13 @@ def getAvailableCsv():
 
 
 def getDataFromCSVPath(chosenCSV):
+    """
+    get data from given csv filePath
+
+    :param chosenCSV: file path of csv file to get info from
+    :type chosenCSV: str
+
+    :return: data from chosen CSV
+    :rtype: dict
+    """
     return getCSVData(filePath=chosenCSV)
