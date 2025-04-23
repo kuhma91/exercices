@@ -19,7 +19,7 @@ from exercices.library.fileLib import getCSVData
 # ==== global ==== #
 RELATED_REPO = os.path.split(__file__)[0]
 PACKAGE_REPO = os.sep.join(__file__.split(os.sep)[:-2])
-OUTPUT_FOLDER = os.path.join(PACKAGE_REPO, 'graphics')
+OUTPUT_FOLDER = os.path.join(RELATED_REPO, 'graphics')
 RELATED_FILE = 'capteurs.csv'
 TIME_KEY = 'timestamp'
 GRAPHIC_FILE_TEMPLATE = os.path.join(OUTPUT_FOLDER, '{name}.png')
@@ -71,7 +71,7 @@ def getGraphicInfo():
             print(f'{name} count does not match timestamps')
             continue
 
-        generateGraphic(name, timeStamps, list(map(float, yAxis)), True)
+        generateGraphic(name=name, xAxis=timeStamps, yAxis=[float(value) for value in yAxis])
 
 
 if __name__ == '__main__':
