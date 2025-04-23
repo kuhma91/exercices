@@ -19,6 +19,27 @@ import platform
 DATE_FORMATS = ["%Y-%m-%d", "%d/%m/%Y", "%m/%d/%Y", "%d-%m-%Y", "%Y/%m/%d", "%Y.%m.%d"]
 
 
+def generateTxt(message, filePath, skipOpen=False):
+    """
+    Writes a message to a specified text file and optionally opens it.
+
+    This function creates or overwrites the file at `filePath` with the provided `message`.
+    If `skipOpen` is False, the file will be opened with the default program after writing.
+
+    :param message: The string content to write to the file
+    :type message: str
+    :param filePath: The full path where the file should be written
+    :type filePath: str
+    :param skipOpen: If True, the file will not be opened after writing. Defaults to False
+    :type skipOpen: bool
+    """
+    with open(filePath, "w") as file:
+        file.write(message)
+
+    if not skipOpen:
+        openFile(filePath)
+
+
 def getFileRecursively(folder):
     """
     Recursively retrieves all files from a given folder, excluding hidden and underscore-prefixed directories.
@@ -68,7 +89,7 @@ def getRelatedFile(folder, wantedFile):
         print(f'no data found if : {folder}')
         return
 
-    searchedName, wantedExtension = os.path.splitext(wantedFile)[0].lower()
+    searchedName, wantedExtension = os.path.splitext(wantedFile.lower())
 
     toReturn = None
     for filePath in data:

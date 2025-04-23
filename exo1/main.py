@@ -16,14 +16,15 @@ from datetime import datetime
 # ==== local ===== #
 from exercices.library.fileLib import getRelatedFile
 from exercices.library.fileLib import isDate
-from exercices.library.fileLib import openFile
+from exercices.library.fileLib import generateTxt
 
 # ==== global ==== #
 PACKAGE_REPO = os.sep.join(__file__.split(os.sep)[:-2])
+RESUME_FILE_NAME = 'resume.txt'
+RESUME_PATH = os.path.join(os.path.split(__file__)[0], RESUME_FILE_NAME)
 RELATED_FILE = 'capteurs.csv'
 DATE_FORMATS = ["%Y-%m-%d %H:%M:%S"]
 BASE_RESUME = "Over a period of {lapsTime} from {minTime} to {maxTime}, the average values are:"
-RESUME_FILE_NAME = 'resume.txt'
 
 
 
@@ -63,16 +64,14 @@ def getCSVData():
     return csvData
 
 
-def formatResume():
+def getResume():
     """
-    Retrieves and processes CSV data, computing averages and time ranges.
+    Processes CSV data to compute time range and averages, then writes a summary to a text file.
 
-    This function reads the CSV data, identifies date columns, and computes the
-    time range (min and max dates) for each date field. For non-date fields, it calculates
-    the average value. It returns a formatted summary string.
-
-    :return: A summary string with time laps and average values or an error message if no data is found
-    :rtype: str
+    This function loads CSV data via `getCSVData()`, identifies any date column to calculate
+    the time span between the earliest and latest timestamps, and computes the average for all
+    other numeric fields. It then formats this information and writes it into a text file
+    using `generateTxt()`.
     """
     csvData = getCSVData()
     if not csvData:
@@ -92,30 +91,9 @@ def formatResume():
         resumeString += f'\n    - average {title} = {sum(values) / len(values)}'
 
     if not resumeString:
-        return 'failed to compilate data'
+        resumeString = 'failed to compilate data'
 
-    return resumeString
-
-
-def getResume(skipOpen=False):
-    """
-    Generates a resume string and writes it to a text file.
-
-    This function calls `formatResume()` to generate a formatted summary, then opens a file
-    specified by `RESUME_FILE_NAME` in write mode and saves the resume string into it.
-    If `skipOpen` is False, it will open the file with the default program.
-
-    :param skipOpen: If True, skips opening the file after writing. Defaults to False.
-    :type skipOpen: bool
-    """
-    toPrint = formatResume()
-
-    resumePath = os.path.join(os.path.split(__file__)[0], RESUME_FILE_NAME)
-    with open(resumePath, "w") as file:
-        file.write(toPrint)
-
-    if not skipOpen:
-        openFile(resumePath)
+    generateTxt(resumeString, RESUME_PATH)
 
 
 if __name__ == '__main__':
