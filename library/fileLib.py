@@ -35,6 +35,9 @@ def generateTxt(message, filePath, skipOpen=False):
     :param skipOpen: If True, the file will not be opened after writing. Defaults to False
     :type skipOpen: bool
     """
+    folder = os.path.split(filePath)[0]
+    os.makedirs(folder, exist_ok=True)
+
     with open(filePath, "w") as file:
         file.write(message)
 

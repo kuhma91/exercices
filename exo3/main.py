@@ -38,13 +38,17 @@ def generateGraphic(name, xAxis, yAxis, show=False):
     :param show: If True, displays the chart after saving. Default is False.
     :type show: bool
     """
+    filePath = GRAPHIC_FILE_TEMPLATE.format(name=name)
+    folder = os.path.split(filePath)[0]
+    os.makedirs(folder, exist_ok=True)
+
     plt.plot(xAxis, yAxis, marker='o', linestyle='-', color='b')
     plt.title(name)
     plt.xlabel('time')
     plt.ylabel(name)
     plt.grid(True)
 
-    plt.savefig(GRAPHIC_FILE_TEMPLATE.format(name=name), dpi=300)
+    plt.savefig(filePath, dpi=300)
 
     if show:
         plt.show()
