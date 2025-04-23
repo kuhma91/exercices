@@ -42,11 +42,16 @@ def generateGraphic(name, xAxis, yAxis, show=False):
     folder = os.path.split(filePath)[0]
     os.makedirs(folder, exist_ok=True)
 
+    plt.figure()  # force new figure creation - avoid issues
+
     plt.plot(xAxis, yAxis, marker='o', linestyle='-', color='b')
-    plt.title(name)
+    plt.title(f'{name} graphic')
     plt.xlabel('time')
     plt.ylabel(name)
     plt.grid(True)
+
+    plt.xticks(rotation=45)  # Rotate the X-axis labels by 45 degrees for better readability
+    plt.tight_layout()  # Automatically adjust subplot parameters to give a nice fit and prevent label cutoff
 
     plt.savefig(filePath, dpi=300)
 
@@ -58,11 +63,10 @@ def getGraphicInfo():
     Reads CSV data and generates a line chart for each data series except the time key.
     """
     csvData = getCSVData(PACKAGE_REPO, RELATED_FILE)
-    timeData = csvData.get(TIME_KEY, [])
-    if not timeData:
+    timeStamps = csvData.get(TIME_KEY, [])
+    if not timeStamps:
         raise RuntimeError(f'"{TIME_KEY}" not in csvData')
 
-    timeStamps = [datetime.strptime(t, "%Y-%m-%d %H:%M:%S") for t in timeData]
     for name, yAxis in csvData.items():
         if name == TIME_KEY:
             continue
@@ -72,6 +76,12 @@ def getGraphicInfo():
             continue
 
         generateGraphic(name=name, xAxis=timeStamps, yAxis=[float(value) for value in yAxis])
+
+        import pprint
+
+        print(f'\nname={name}')
+        pprint.pprint(timeStamps)
+        pprint.pprint([float(value) for value in yAxis])
 
 
 if __name__ == '__main__':
