@@ -40,6 +40,8 @@ class CsvViewer:
     def storeWidget(self):
         self.CSVSelecter = self.ui.CSVSelecter
         self.treeView = self.ui.treeView
+        self.averageButton = self.ui.averageButton
+        self.garphButton = self.ui.garphButton
 
     def fillUi(self):
         self.CSVSelecter.addItems(sorted(list(self.csvs.keys())))
@@ -76,6 +78,7 @@ class CsvViewer:
 
     def connectWidgets(self):
         self.CSVSelecter.currentIndexChanged.connect(self.updateTreeView)
+        self.averageButton =
 
     def initializeUi(self, *args):
         if not QtWidgets.QApplication.instance():
