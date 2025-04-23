@@ -8,17 +8,21 @@ description:
 """
 # ==== native ==== #
 import os
+from datetime import datetime
 
 # ==== third ==== #
 
 # ==== local ===== #
 from exercices.library.fileLib import getCSVData
+from exercices.library.fileLib import isDate
 from exercices.library.fileLib import getFileRecursively
 
 # ==== global ==== #
 PACKAGE_REPO = os.sep.join(__file__.split(os.sep)[:-2])
 FILE_NAME = 'capteurs.csv'
 EXTENSION = '.csv'
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATE_FORMATS = [DATE_FORMAT]
 
 
 def getAvailableCsv():
@@ -58,3 +62,29 @@ def getDataFromCSVPath(chosenCSV):
     :rtype: dict
     """
     return getCSVData(filePath=chosenCSV)
+
+
+def calculAverage(csvData):
+    """
+    Computes the average, minimum, and maximum of each list of numeric values
+    in the input dictionary, and returns a formatted summary as a string.
+
+    :param csvData: data to get info from
+    :type csvData: dict[str, list[str]]
+
+    :return: A formatted string summarizing the average, minimum, and maximum for each numeric key.
+             Non-numeric entries are skipped.
+    :rtype: str
+    """
+    statText = ''
+    for title, data in csvData.items():
+        if isDate(data[0], DATE_FORMATS):
+            timeObjects = [datetime.strptime(x, DATE_FORMAT) for x in data]
+            minTime, maxTime = min(timeObjects), max(timeObjects)
+            statText += f'{title} : {maxTime - minTime} [{minTime} -> {maxTime}]\n'
+            continue
+
+        values = [float(x) for x in data]
+        statText += f'{title} = {sum(values) / len(values)} [{min(values)} -> {max(values)}]\n'
+
+    return statText.strip()

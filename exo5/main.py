@@ -19,7 +19,7 @@ from PySide2.QtGui import QStandardItem
 # ==== local ===== #
 from library.general.uiLib import applyStyleSheet
 from library.general.uiLib import loadUi
-from exercices.exo1.main import getResume
+from exercices.exo5.core import calculAverage
 from exercices.exo5.core import getAvailableCsv
 from exercices.exo5.core import getDataFromCSVPath
 
@@ -41,6 +41,7 @@ class CsvViewer:
     def storeWidget(self):
         self.CSVSelecter = self.ui.CSVSelecter
         self.treeView = self.ui.treeView
+        self.statsLabel = self.ui.statsLabel
 
     def fillUi(self):
         self.CSVSelecter.addItems(sorted(list(self.csvs.keys())))
@@ -76,6 +77,8 @@ class CsvViewer:
         header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)  # make columns stretchable
 
         self.treeView.setSortingEnabled(True)  # Enable sorting by column header
+
+        self.statsLabel.setText(calculAverage(data))
 
     def connectWidgets(self):
         self.CSVSelecter.currentIndexChanged.connect(self.updateTreeView)

@@ -54,3 +54,7 @@ class CsvViewerUi(QtWidgets.QDialog):
 
         self.treeView = QtWidgets.QTreeView()
         self.mainLayout.addWidget(self.treeView)
+
+        self.statsLabel = QtWidgets.QLabel()
+        self.statsLabel.setWordWrap(True)
+        self.mainLayout.addWidget(self.statsLabel)
