@@ -11,6 +11,7 @@ import sys
 from functools import partial
 
 # ==== third ==== #
+from PySide2.QtCore import Qt
 from PySide2 import QtWidgets
 from PySide2.QtGui import QStandardItemModel
 from PySide2.QtGui import QStandardItem
@@ -57,13 +58,18 @@ class CsvViewer:
         # fill columns
         rows = zip(*data.values())
         for row in rows:
-            items = [QStandardItem(str(cell)) for cell in row]
+            items = []
+            for cell in row:
+                item = QStandardItem(str(cell))
+                item.setTextAlignment(Qt.AlignCenter)
+                items.append(item)
             self.model.appendRow(items)
 
-        self.model.setHorizontalHeaderLabels(list(data.keys()))  # Add header
+        self.treeView.setStyleSheet("""QHeaderView::section {background-color: rgb(85, 85, 85);}""")  # set color
 
+        self.model.setHorizontalHeaderLabels(list(data.keys()))  # Add header titles
         header = self.treeView.header()  # create header to make it stretchable
-        header.setStyleSheet("QHeaderView::section { height: 50px; }")  # set height
+        header.setFixedHeight(30)  # set height
         header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)  # make columns stretchable
 
         self.treeView.setSortingEnabled(True)  # Enable sorting by column header

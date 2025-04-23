@@ -22,7 +22,7 @@ class CsvViewerUi(QtWidgets.QDialog):
         super(CsvViewerUi, self).__init__(parent)
         self.uiName = __class__.__name__.split('Ui')[0]
 
-        self.uiWidth = 300
+        self.uiWidth = 500
         self.uiMenus = {}
         self.setupUi()
 
@@ -46,6 +46,17 @@ class CsvViewerUi(QtWidgets.QDialog):
         csvSelectLayout.addWidget(self.CSVSelecter)
         self.mainLayout.addLayout(csvSelectLayout)
 
+        spacer1 = QtWidgets.QLabel('')
+        spacer1.setMinimumWidth(self.uiWidth)
+        spacer1.setMinimumHeight(15)
+        spacer1.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.mainLayout.addWidget(spacer1)
+
         self.treeView = QtWidgets.QTreeView()
-        self.treeView.setAlternatingRowColors(True)  # Optional: for better row color alternation
         self.mainLayout.addWidget(self.treeView)
+
+        spacer2 = QtWidgets.QLabel('')
+        spacer2.setMinimumWidth(self.uiWidth)
+        spacer2.setMinimumHeight(15)
+        spacer2.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.mainLayout.addWidget(spacer2)
