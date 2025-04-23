@@ -54,28 +54,3 @@ class CsvViewerUi(QtWidgets.QDialog):
 
         self.treeView = QtWidgets.QTreeView()
         self.mainLayout.addWidget(self.treeView)
-
-        spacer2 = QtWidgets.QLabel('')
-        spacer2.setMinimumWidth(self.uiWidth)
-        spacer2.setMinimumHeight(15)
-        spacer2.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        self.mainLayout.addWidget(spacer2)
-
-        buttonsLayout = QtWidgets.QHBoxLayout()
-        spacer3 = QtWidgets.QLabel('')
-        spacer3.setMinimumWidth((self.uiWidth / 4) * 3)
-        spacer3.setMinimumHeight(30)
-        spacer3.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        buttonsLayout.addWidget(spacer3)
-        self.averageButton = QtWidgets.QPushButton('average')
-        self.averageButton.setMinimumWidth(self.uiWidth / 4)
-        self.averageButton.setMinimumHeight(30)
-        self.averageButton.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-        buttonsLayout.addWidget(self.averageButton)
-        self.garphButton = QtWidgets.QPushButton('graph')
-        self.garphButton.setMinimumWidth(self.uiWidth / 4)
-        self.garphButton.setMinimumHeight(30)
-        self.garphButton.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-        buttonsLayout.addWidget(self.garphButton)
-
-        self.mainLayout.addLayout(buttonsLayout)

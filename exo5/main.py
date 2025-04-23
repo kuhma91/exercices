@@ -19,6 +19,7 @@ from PySide2.QtGui import QStandardItem
 # ==== local ===== #
 from library.general.uiLib import applyStyleSheet
 from library.general.uiLib import loadUi
+from exercices.exo1.main import getResume
 from exercices.exo5.core import getAvailableCsv
 from exercices.exo5.core import getDataFromCSVPath
 
@@ -40,21 +41,21 @@ class CsvViewer:
     def storeWidget(self):
         self.CSVSelecter = self.ui.CSVSelecter
         self.treeView = self.ui.treeView
-        self.averageButton = self.ui.averageButton
-        self.garphButton = self.ui.garphButton
 
     def fillUi(self):
         self.CSVSelecter.addItems(sorted(list(self.csvs.keys())))
         self.updateTreeView()
+
+    def getChosenCsv(self):
+        csvName = self.CSVSelecter.currentText()
+        return self.csvs[csvName]
 
     def updateTreeView(self):
         self.treeView.setModel(None)
         self.model = QStandardItemModel()
         self.treeView.setModel(self.model)
 
-        csvName = self.CSVSelecter.currentText()
-        chosenCSV =  self.csvs[csvName]
-
+        chosenCSV = self.getChosenCsv()
         data = getDataFromCSVPath(chosenCSV)
 
         # fill columns
@@ -78,7 +79,6 @@ class CsvViewer:
 
     def connectWidgets(self):
         self.CSVSelecter.currentIndexChanged.connect(self.updateTreeView)
-        self.averageButton =
 
     def initializeUi(self, *args):
         if not QtWidgets.QApplication.instance():

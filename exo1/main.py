@@ -28,7 +28,7 @@ DATE_FORMATS = ["%Y-%m-%d %H:%M:%S"]
 BASE_RESUME = "Over a period of {lapsTime} from {minTime} to {maxTime}, the average values are:"
 
 
-def getResume():
+def getResume(csvFile=None, saveTxt=True):
     """
     Processes CSV data to compute time range and averages, then writes a summary to a text file.
 
@@ -36,8 +36,20 @@ def getResume():
     the time span between the earliest and latest timestamps, and computes the average for all
     other numeric fields. It then formats this information and writes it into a text file
     using `generateTxt()`.
+
+    :param csvFile: csv file path to get data from
+    :type csvFile: str
+    :param saveTxt: if True save resume string in txt
+    :type saveTxt: bool
+
+    :return: string in resume.txt
+    :rtype: srt
     """
-    csvData = getCSVData(fodler=PACKAGE_REPO, fileName=RELATED_FILE)
+    if csvFile:
+        csvData = getCSVData(filePath=csvFile)
+    else:
+        csvData = getCSVData(fodler=PACKAGE_REPO, fileName=RELATED_FILE)
+
     if not csvData:
         raise RuntimeError('no csv data found')
 
@@ -56,7 +68,10 @@ def getResume():
     if not resumeString:
         resumeString = 'failed to compilate data'
 
-    generateTxt(resumeString, RESUME_PATH)
+    if saveTxt:
+        generateTxt(resumeString, RESUME_PATH)
+
+    return resumeString
 
 
 if __name__ == '__main__':
