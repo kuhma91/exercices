@@ -14,7 +14,7 @@ from datetime import datetime
 # ==== third ==== #
 
 # ==== local ===== #
-from exercices.library.fileLib import getFileRecursively
+from exercices.library.fileLib import getRelatedFile
 from exercices.library.fileLib import isDate
 from exercices.library.fileLib import openFile
 
@@ -38,7 +38,7 @@ def getCSVData():
     :return: CSV column names as keys and lists of column data as values
     :rtype: dict
     """
-    dataFile = getRelatedCsv()
+    dataFile = getRelatedFile(folder=PACKAGE_REPO, wantedFile=RELATED_FILE)
     if not dataFile:
         print('no matching csv found')
         return

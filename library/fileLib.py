@@ -47,7 +47,7 @@ def getFileRecursively(folder):
     return files
 
 
-def getRelatedFile(folder, wantedFile, wantedExtension=None):
+def getRelatedFile(folder, wantedFile):
     """
     Searches recursively for a file matching the given name and optionally the extension.
 
@@ -57,10 +57,8 @@ def getRelatedFile(folder, wantedFile, wantedExtension=None):
 
     :param folder: The root directory to start the search from
     :type folder: str
-    :param wantedFile: The base name of the file to search for (with or without extension)
+    :param wantedFile: File name and extension to search for
     :type wantedFile: str
-    :param wantedExtension: Optional extension to match (e.g., ".csv", ".json"). If not provided, uses the extension from `wantedFile`
-    :type wantedExtension: str or None
 
     :return: The full path to the matching file if found, otherwise None
     :rtype: str or None
@@ -70,9 +68,7 @@ def getRelatedFile(folder, wantedFile, wantedExtension=None):
         print(f'no data found if : {folder}')
         return
 
-    searchedName, extension = os.path.splitext(wantedFile)[0].lower()
-    if not wantedExtension:
-        wantedExtension = extension
+    searchedName, wantedExtension = os.path.splitext(wantedFile)[0].lower()
 
     toReturn = None
     for filePath in data:
