@@ -1,0 +1,7 @@
+{
+    "machine": {
+        "id": "AXT-01",
+        "mode": "auto",
+        "cycle_time": "25"
+    }
+}
