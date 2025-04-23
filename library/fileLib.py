@@ -155,7 +155,7 @@ def getRelatedFile(folder, wantedFile):
     return toReturn
 
 
-def getCSVData(folder, filePath):
+def getCSVData(folder, fileName=None, filePath=None):
     """
     Reads and parses the related CSV file into a dictionary format.
 
@@ -165,18 +165,30 @@ def getCSVData(folder, filePath):
 
     :param folder: The root directory to start the search from
     :type folder: str
-    :param filePath: File name and extension to search for
+    :param fileName: File name and extension to search for
+    :type fileName: str
+    :param filePath: csv file path to get data from
     :type filePath: str
 
     :return: CSV column names as keys and lists of column data as values
     :rtype: dict
     """
-    dataFile = getRelatedFile(folder, filePath)
-    if not dataFile:
-        raise RuntimeError('no matching csv found')
+    if not filePath:
+        if not fileName:
+            raise RuntimeError('not enough value given: need fileName (with extension) or direct csv Path')
+
+        filePath = getRelatedFile(folder, filePath)
+        if not filePath:
+            raise RuntimeError('no matching csv found')
+
+    else:
+        extension = os.path.splitext(filePath)[-1]
+        if extension != '.csv':
+            raise RuntimeError('need a csv file path')
+
 
     csvData = {}
-    with open(dataFile, newline='') as csvfile:
+    with open(filePath, newline='') as csvfile:
         reader = csv.reader(csvfile)
 
         titles = {}
