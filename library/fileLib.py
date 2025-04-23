@@ -18,6 +18,7 @@ import platform
 # ==== global ==== #
 DATE_FORMATS = ["%Y-%m-%d", "%d/%m/%Y", "%m/%d/%Y", "%d-%m-%Y", "%Y/%m/%d", "%Y.%m.%d"]
 
+
 def getFileRecursively(folder):
     """
     Recursively retrieves all files from a given folder, excluding hidden and underscore-prefixed directories.
@@ -44,6 +45,46 @@ def getFileRecursively(folder):
             continue
 
     return files
+
+
+def getRelatedFile(folder, wantedFile, wantedExtension=None):
+    """
+    Searches recursively for a file matching the given name and optionally the extension.
+
+    This function walks through all files in the given folder and its subdirectories,
+    ignoring hidden and underscore-prefixed folders. It looks for a file whose name matches
+    `wantedFile` (case-insensitive, without extension) and, if specified, whose extension matches `wantedExtension`.
+
+    :param folder: The root directory to start the search from
+    :type folder: str
+    :param wantedFile: The base name of the file to search for (with or without extension)
+    :type wantedFile: str
+    :param wantedExtension: Optional extension to match (e.g., ".csv", ".json"). If not provided, uses the extension from `wantedFile`
+    :type wantedExtension: str or None
+
+    :return: The full path to the matching file if found, otherwise None
+    :rtype: str or None
+    """
+    data = getFileRecursively(folder)
+    if not data:
+        print(f'no data found if : {folder}')
+        return
+
+    searchedName, extension = os.path.splitext(wantedFile)[0].lower()
+    if not wantedExtension:
+        wantedExtension = extension
+
+    toReturn = None
+    for filePath in data:
+        shortName = os.path.split(filePath)[-1].lower()
+        name, extension = os.path.splitext(shortName)
+        if name != searchedName or extension != wantedExtension:
+            continue
+
+        toReturn = filePath
+        break
+
+    return toReturn
 
 
 def isDate(data, dateFormats=None):

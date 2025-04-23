@@ -26,36 +26,6 @@ BASE_RESUME = "Over a period of {lapsTime} from {minTime} to {maxTime}, the aver
 RESUME_FILE_NAME = 'resume.txt'
 
 
-def getRelatedCsv():
-    """
-    Searches for a related CSV file in the package repository.
-
-    This function extracts the base name and extension from the global `RELATED_FILE`, then
-    recursively searches through the `PACKAGE_REPO` directory for a file that matches both the
-    name and extension (case-insensitive). If a match is found, the corresponding file path is returned.
-
-    Return: The full path to the matching file if found
-    :rtype: str
-    """
-    data = getFileRecursively(PACKAGE_REPO)
-    if not data:
-        print(f'no data found if : {PACKAGE_REPO}')
-        return
-
-    searchedName, wantedExtension = os.path.splitext(RELATED_FILE.lower())
-
-    toReturn = None
-    for filePath in data:
-        shortName = os.path.split(filePath)[-1].lower()
-        name, extension = os.path.splitext(shortName)
-        if name != searchedName or extension != wantedExtension:
-            continue
-
-        toReturn = filePath
-        break
-
-    return toReturn
-
 
 def getCSVData():
     """
