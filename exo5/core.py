@@ -48,4 +48,4 @@ def getAvailableCsv():
 
 
 def getDataFromCSVPath(chosenCSV):
-    data = getCSVData(filePath=chosenCSV)
+    return getCSVData(filePath=chosenCSV)
