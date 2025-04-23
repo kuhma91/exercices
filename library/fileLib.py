@@ -21,6 +21,26 @@ import platform
 DATE_FORMATS = ["%Y-%m-%d", "%d/%m/%Y", "%m/%d/%Y", "%d-%m-%Y", "%Y/%m/%d", "%Y.%m.%d"]
 
 
+def exportDictToJSON(data, filePath):
+    """
+    Exports a dictionary to a JSON file.
+
+    :param data: The dictionary to export.
+    :type data: dict
+    :param filePath: The path to the JSON file where data will be saved.
+    :type filePath: str
+    """
+    folder = os.path.split(filePath)[0]
+    os.makedirs(folder, exist_ok=True)
+
+    try:
+        with open(filePath, 'w') as jsonFile:
+            json.dump(data, jsonFile, indent=4)
+
+    except Exception as e:
+        raise RuntimeError(f"An error occurred while exporting data: {e}")
+
+
 def generateTxt(message, filePath, skipOpen=False):
     """
     Writes a message to a specified text file and optionally opens it.
@@ -218,3 +238,35 @@ def openFile(fileToOpen):
         os.system(f"open {fileToOpen}")  # macOS
     else:
         os.system(f"xdg-open {fileToOpen}")
+
+
+def xmlToDict(root):
+    """
+    Converts an ElementTree element and its children into a nested dictionary.
+
+    :param root: An ElementTree element
+
+    :return: XML data as a nested dict
+    :rtype: dict
+    """
+    data = {}
+
+    children = list(root)
+    if children:
+        for child in children:
+            child_data = xmlToDict(child)
+            tag = child.tag
+
+            # Handle multiple children with the same tag
+            if tag in data:
+                if isinstance(data[tag], list):
+                    data[tag].append(child_data)
+                else:
+                    data[tag] = [data[tag], child_data]
+            else:
+                data[tag] = child_data
+    else:
+        # Handle text content
+        data = root.text.strip() if root.text and root.text.strip() else None
+
+    return data
