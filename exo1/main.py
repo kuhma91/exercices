@@ -14,9 +14,9 @@ from datetime import datetime
 # ==== third ==== #
 
 # ==== local ===== #
-from exercices.library.fileLib import getRelatedFile
 from exercices.library.fileLib import isDate
 from exercices.library.fileLib import generateTxt
+from exercices.library.fileLib import getCSVData
 
 # ==== global ==== #
 PACKAGE_REPO = os.sep.join(__file__.split(os.sep)[:-2])
@@ -25,41 +25,6 @@ RESUME_PATH = os.path.join(os.path.split(__file__)[0], RESUME_FILE_NAME)
 RELATED_FILE = 'capteurs.csv'
 DATE_FORMATS = ["%Y-%m-%d %H:%M:%S"]
 BASE_RESUME = "Over a period of {lapsTime} from {minTime} to {maxTime}, the average values are:"
-
-
-
-def getCSVData():
-    """
-    Reads and parses the related CSV file into a dictionary format.
-
-    This function looks for a CSV file matching the `RELATED_FILE` using `getRelatedCsv()`.
-    If found, it reads its content and structures it as a dictionary where each key is a column title,
-    and the corresponding value is a list of entries for that column.
-
-    :return: CSV column names as keys and lists of column data as values
-    :rtype: dict
-    """
-    dataFile = getRelatedFile(folder=PACKAGE_REPO, wantedFile=RELATED_FILE)
-    if not dataFile:
-        raise RuntimeError('no matching csv found')
-
-    csvData = {}
-    with open(dataFile, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        titles = {}
-        for i, row in enumerate(reader):
-            if i == 0:
-                titles = {x: name for x, name in enumerate(row)}
-                continue
-
-            if not titles:
-                raise RuntimeError('no able to define titles')
-
-            for x, info in enumerate(row):
-                csvData.setdefault(titles[x], []).append(info)
-
-    return csvData
 
 
 def getResume():
@@ -71,7 +36,7 @@ def getResume():
     other numeric fields. It then formats this information and writes it into a text file
     using `generateTxt()`.
     """
-    csvData = getCSVData()
+    csvData = getCSVData(PACKAGE_REPO, RELATED_FILE)
     if not csvData:
         raise RuntimeError('no csv data found')
 

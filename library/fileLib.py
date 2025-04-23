@@ -9,6 +9,7 @@ description: library related to file info and management
 # ==== native ==== #
 import os
 import json
+import csv
 from datetime import datetime
 import platform
 
@@ -129,6 +130,45 @@ def getRelatedFile(folder, wantedFile):
         break
 
     return toReturn
+
+
+def getCSVData(folder, filePath):
+    """
+    Reads and parses the related CSV file into a dictionary format.
+
+    This function looks for a CSV file matching the `RELATED_FILE` using `getRelatedCsv()`.
+    If found, it reads its content and structures it as a dictionary where each key is a column title,
+    and the corresponding value is a list of entries for that column.
+
+    :param folder: The root directory to start the search from
+    :type folder: str
+    :param filePath: File name and extension to search for
+    :type filePath: str
+
+    :return: CSV column names as keys and lists of column data as values
+    :rtype: dict
+    """
+    dataFile = getRelatedFile(folder, filePath)
+    if not dataFile:
+        raise RuntimeError('no matching csv found')
+
+    csvData = {}
+    with open(dataFile, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+
+        titles = {}
+        for i, row in enumerate(reader):
+            if i == 0:
+                titles = {x: name for x, name in enumerate(row)}
+                continue
+
+            if not titles:
+                raise RuntimeError('no able to define titles')
+
+            for x, info in enumerate(row):
+                csvData.setdefault(titles[x], []).append(info)
+
+    return csvData
 
 
 def isDate(data, dateFormats=None):
