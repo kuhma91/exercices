@@ -8,6 +8,7 @@ description: library related to file info and management
 """
 # ==== native ==== #
 import os
+import json
 from datetime import datetime
 import platform
 
@@ -66,6 +67,32 @@ def getFileRecursively(folder):
             continue
 
     return files
+
+
+def getJsonData(jsonFile):
+    """
+    Safely reads and parses a JSON file.
+
+    This function attempts to open and parse the specified JSON file.
+    If successful, it returns the parsed data as a Python object.
+    If the file is not readable or the JSON is malformed, it raises a RuntimeError
+    with a descriptive message.
+
+    :param jsonFile: Path to the JSON file to be read
+    :type jsonFile: str
+    :return: Parsed JSON data as a dictionary or list (depending on file content)
+    :rtype: dict or list
+    """
+    try:
+        with open(jsonFile, 'r') as f:
+            data = json.load(f)
+            return data
+
+    except json.JSONDecodeError as e:
+        raise RuntimeError(f'JSON format error in {jsonFile} : {e}')
+
+    except Exception as e:
+        raise RuntimeError(f'Failed to read {jsonFile} : {e}')
 
 
 def getRelatedFile(folder, wantedFile):
