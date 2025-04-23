@@ -62,7 +62,7 @@ def getGraphicInfo():
     """
     Reads CSV data and generates a line chart for each data series except the time key.
     """
-    csvData = getCSVData(PACKAGE_REPO, RELATED_FILE)
+    csvData = getCSVData(folder=PACKAGE_REPO, fileName=RELATED_FILE)
     timeStamps = csvData.get(TIME_KEY, [])
     if not timeStamps:
         raise RuntimeError(f'"{TIME_KEY}" not in csvData')

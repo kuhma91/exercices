@@ -13,6 +13,7 @@ from functools import partial
 # ==== third ==== #
 from PySide2 import QtWidgets
 from PySide2.QtGui import QStandardItemModel
+from PySide2.QtGui import QStandardItem
 
 # ==== local ===== #
 from library.general.uiLib import applyStyleSheet
@@ -41,6 +42,7 @@ class CsvViewer:
 
     def fillUi(self):
         self.CSVSelecter.addItems(sorted(list(self.csvs.keys())))
+        self.updateTreeView()
 
     def updateTreeView(self):
         self.treeView.setModel(None)
@@ -51,29 +53,21 @@ class CsvViewer:
         chosenCSV =  self.csvs[csvName]
 
         data = getDataFromCSVPath(chosenCSV)
-        headers = list(data.keys())
 
-        self.model.setHorizontalHeaderLabels(headers)  # Add header
-        for i, _ in enumerate(headers):
+        # fill columns
+        rows = zip(*data.values())
+        for row in rows:
+            items = [QStandardItem(str(cell)) for cell in row]
+            self.model.appendRow(items)
 
+        self.model.setHorizontalHeaderLabels(list(data.keys()))  # Add header
+        for i in enumerate(data):
+            self.treeView.setHeaderResizeMode(i, QtWidgets.QHeaderView.Stretch)  # Stretchable
 
-
-
-
+        self.treeView.setSortingEnabled(True)  # Enable sorting by column header
 
     def connectWidgets(self):
-        self.endButton.clicked.connect(partial(self.createCommand))
-
-    def createCommand(self, *args):
-        assetType = self.typeMenu.currentText()
-        givenName = self.nameMenu.text()
-        if not givenName.strip():
-            print('no name given')
-            return
-
-        assetName = formatString(givenName, 'PascalCase')
-        generateAsset(assetName, assetType)
-
+        self.CSVSelecter.currentIndexChanged.connect(self.updateTreeView)
 
     def initializeUi(self, *args):
         if not QtWidgets.QApplication.instance():

@@ -37,7 +37,7 @@ def getResume():
     other numeric fields. It then formats this information and writes it into a text file
     using `generateTxt()`.
     """
-    csvData = getCSVData(PACKAGE_REPO, RELATED_FILE)
+    csvData = getCSVData(fodler=PACKAGE_REPO, fileName=RELATED_FILE)
     if not csvData:
         raise RuntimeError('no csv data found')
 

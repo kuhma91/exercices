@@ -47,6 +47,5 @@ class CsvViewerUi(QtWidgets.QDialog):
         self.mainLayout.addLayout(csvSelectLayout)
 
         self.treeView = QtWidgets.QTreeView()
-        self.treeView.setSortingEnabled(True)  # Enable sorting by column header
         self.treeView.setAlternatingRowColors(True)  # Optional: for better row color alternation
         self.mainLayout.addWidget(self.treeView)

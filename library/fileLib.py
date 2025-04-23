@@ -155,7 +155,7 @@ def getRelatedFile(folder, wantedFile):
     return toReturn
 
 
-def getCSVData(folder, fileName=None, filePath=None):
+def getCSVData(folder=None, fileName=None, filePath=None):
     """
     Reads and parses the related CSV file into a dictionary format.
 
@@ -174,7 +174,7 @@ def getCSVData(folder, fileName=None, filePath=None):
     :rtype: dict
     """
     if not filePath:
-        if not fileName:
+        if not fileName or not folder:
             raise RuntimeError('not enough value given: need fileName (with extension) or direct csv Path')
 
         filePath = getRelatedFile(folder, filePath)
