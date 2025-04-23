@@ -63,8 +63,8 @@ class CsvViewer:
         self.model.setHorizontalHeaderLabels(list(data.keys()))  # Add header
 
         header = self.treeView.header()  # create header to make it stretchable
-        for i in enumerate(data):
-            header.setSectionResizeMode(i, QtWidgets.QHeaderView.Stretch)  # Stretchable
+        header.setStyleSheet("QHeaderView::section { height: 50px; }")  # set height
+        header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)  # make columns stretchable
 
         self.treeView.setSortingEnabled(True)  # Enable sorting by column header
 
