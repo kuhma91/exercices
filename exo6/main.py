@@ -49,12 +49,13 @@ class JsonParamSetter:
         self.endButton = self.ui.endButton
 
     def connectWidgets(self):
+        self.fileSelecter.currentTextChanged.connect(partial(self.fillUi))
         self.slider.sliderMoved.connect(partial(self.updateTextField))
         self.slider.valueChanged.connect(partial(self.updateTextField))
         self.textField.textChanged.connect(partial(self.updateSlider))
         self.endButton.clicked.connect(partial(self.saveCommand))
 
-    def fillUi(self):
+    def fillUi(self, *args):
         self.fileSelecter.addItems(sorted(list(self.availableJson.keys())))
 
         fileName = self.getChosenFile()
