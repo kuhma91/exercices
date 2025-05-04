@@ -11,10 +11,10 @@ import sys
 from functools import partial
 
 # ==== third ==== #
-from PySide2.QtCore import Qt
-from PySide2 import QtWidgets
-from PySide2.QtGui import QStandardItemModel
-from PySide2.QtGui import QStandardItem
+from PySide6.QtCore import Qt
+from PySide6 import QtWidgets
+from PySide6.QtGui import QStandardItemModel
+from PySide6.QtGui import QStandardItem
 
 # ==== local ===== #
 from library.general.uiLib import applyStyleSheet
