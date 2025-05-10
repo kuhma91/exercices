@@ -65,6 +65,34 @@ def generateTxt(message, filePath, skipOpen=False):
         openFile(filePath)
 
 
+def getDataFromCsv(csvPath):
+    """
+    Reads a CSV file and returns its content as a dictionary where keys are column headers.
+
+    :param csvPath: Path to the CSV file.
+    :type csvPath: str
+    :return: Dictionary with column headers as keys and lists of column values.
+    :rtype: dict
+    """
+    csvData = {}
+    with open(csvPath, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+
+        titles = {}
+        for i, row in enumerate(reader):
+            if i == 0:
+                titles = {x: name for x, name in enumerate(row)}
+                continue
+
+            if not titles:
+                raise RuntimeError('no able to define titles')
+
+            for x, info in enumerate(row):
+                csvData.setdefault(titles[x], []).append(info)
+
+    return csvData
+
+
 def getFileRecursively(folder):
     """
     Recursively retrieves all files from a given folder, excluding hidden and underscore-prefixed directories.
@@ -187,21 +215,7 @@ def getCSVData(folder=None, fileName=None, filePath=None):
             raise RuntimeError('need a csv file path')
 
 
-    csvData = {}
-    with open(filePath, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        titles = {}
-        for i, row in enumerate(reader):
-            if i == 0:
-                titles = {x: name for x, name in enumerate(row)}
-                continue
-
-            if not titles:
-                raise RuntimeError('no able to define titles')
-
-            for x, info in enumerate(row):
-                csvData.setdefault(titles[x], []).append(info)
+    csvData = getDataFromCsv(filePath)
 
     return csvData
 

@@ -9,43 +9,29 @@ description:
 # ==== native ==== #
 import os
 import pprint
+import csv
 
 # ==== third ==== #
-from exercices.library.fileLib import getFileRecursively
-from exercices.library.fileLib import getCSVData
-
 # ==== local ===== #
+from exercices.library.fileLib import getFileRecursively
 
 # ==== global ==== #
-PACKAGE_FOLDER = os.sep.join(__file__.split(os.sep)[:-2])
-EXTENSION = '.csv'
+DATA_REPO = os.path.join(os.sep.join(__file__.split(os.sep)[:-2]), 'data')
 
 
-def getCSVs():
-    files = getFileRecursively(PACKAGE_FOLDER)
-
-    csvs = []
-    for item in files:
-        extension = os.path.splitext(item)[-1]
-        if extension != EXTENSION:
-            continue
-
-        csvs.append(item)
-
-    return csvs
 
 
-def readCsv():
-    csvs = getCSVs()
+
+def getCsvs():
+    files = getFileRecursively(DATA_REPO)
+    csvs = [x for x in files if x.endswith('.csv')]
 
     data = {}
-    for i, filePath in enumerate(csvs):
-        containedIn = getCSVData(filePath=filePath)
-        for k, v in containedIn.items():
-            data.setdefault(k, {}).setdefault(filePath, []).append(v)
+    for csvFile in csvs:
+        data = data | getDataFromCsv(csvFile)
 
-    return data
+    
 
 
-if __name__ == "__main__":
-    readCsv()
+if __name__ == '__main__':
+    getCsvs()
