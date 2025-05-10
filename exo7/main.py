@@ -14,11 +14,10 @@ import csv
 # ==== third ==== #
 # ==== local ===== #
 from exercices.library.fileLib import getFileRecursively
+from exercices.library.fileLib import getDataFromCsv
 
 # ==== global ==== #
 DATA_REPO = os.path.join(os.sep.join(__file__.split(os.sep)[:-2]), 'data')
-
-
 
 
 
