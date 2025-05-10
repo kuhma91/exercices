@@ -27,10 +27,10 @@ def getCsvs():
 
     data = {}
     for csvFile in csvs:
-        data = data | getDataFromCsv(csvFile)
+        csvInfo = getDataFromCsv(csvFile)
+        data[csvFile] = {key: values for key, values in csvInfo.items()}
 
-    
+    return data
 
 
-if __name__ == '__main__':
-    getCsvs()
+
