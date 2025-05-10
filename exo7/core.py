@@ -31,6 +31,3 @@ def getCsvs():
         data[csvFile] = {key: values for key, values in csvInfo.items()}
 
     return data
-
-
-
