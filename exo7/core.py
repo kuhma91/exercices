@@ -20,7 +20,6 @@ from exercices.library.fileLib import getDataFromCsv
 DATA_REPO = os.path.join(os.sep.join(__file__.split(os.sep)[:-2]), 'data')
 
 
-
 def getCsvs():
     files = getFileRecursively(DATA_REPO)
     csvs = [x for x in files if x.endswith('.csv')]
