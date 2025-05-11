@@ -27,6 +27,10 @@ def getCsvs():
     data = {}
     for csvFile in csvs:
         csvInfo = getDataFromCsv(csvFile)
-        data[csvFile] = {key: values for key, values in csvInfo.items()}
+        shortName = os.path.splitext(os.path.split(csvFile)[-1])[0]
+        data[shortName] = csvInfo | {'filePath': csvFile}
 
     return data
+
+
+
