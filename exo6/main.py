@@ -13,7 +13,7 @@ import re
 from functools import partial
 
 # ==== third ==== #
-from PySide6 import QtWidgets
+from PySide2 import QtWidgets
 
 # ==== local ===== #
 from library.general.uiLib import applyStyleSheet

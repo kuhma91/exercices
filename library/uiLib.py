@@ -4,7 +4,7 @@ import os
 import importlib.util
 
 # ==== third ==== #
-from PySide6 import QtWidgets
+from PySide2 import QtWidgets
 
 # ==== global ==== #
 STYLE_SHEET = {
